@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
 import frc.robot.Constants.LauncherConstants;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.AutonomousTime;
@@ -41,8 +42,8 @@ public class RobotContainer {
    * switch on the top.*/
   private final CommandXboxController m_driverController =
       new CommandXboxController(OperatorConstants.kDriverControllerPort);
-  private final CommandXboxController m_operatorController =
-      new CommandXboxController(OperatorConstants.kOperatorControllerPort);
+  private final CommandPS5Controller m_operatorController =
+      new CommandPS5Controller(OperatorConstants.kOperatorControllerPort);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -63,7 +64,7 @@ public class RobotContainer {
     /*Create an inline sequence to run when the operator presses and holds the A (green) button. Run the PrepareLaunch
      * command for 1 seconds and then run the LaunchNote command */
     m_operatorController
-        .a()
+        .cross()
         .whileTrue(
             new PrepareLaunch(m_launcher)
                 .withTimeout(LauncherConstants.kLauncherDelay)
@@ -72,7 +73,7 @@ public class RobotContainer {
 
     // Set up a binding to run the intake command while the operator is pressing and holding the
     // left Bumper
-    m_operatorController.leftBumper().whileTrue(m_launcher.getIntakeCommand());
+    m_operatorController.L1().whileTrue(m_launcher.getIntakeCommand());
 
     m_chooser.setDefaultOption("LEAVE START ZONE", new AutonomousTime(m_drivetrain));
     m_chooser.addOption("SCORE IN AMP", new AutonomousTime(m_drivetrain));
