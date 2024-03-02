@@ -18,6 +18,7 @@ import frc.robot.commands.Drive;
 import frc.robot.commands.LaunchNote;
 import frc.robot.commands.NoopAuton;
 import frc.robot.commands.PrepareLaunch;
+import frc.robot.commands.SpeakAndLongRunAuton;
 import frc.robot.commands.SpeakAndRunAuton;
 import frc.robot.commands.SpeakandStop;
 import frc.robot.subsystems.Drivetrain;
@@ -82,6 +83,7 @@ public class RobotContainer {
     m_chooser.addOption("DO NOTHING", new NoopAuton());
     m_chooser.addOption("SCORE SPEAKER", new SpeakandStop(m_drivetrain, m_launcher));
     m_chooser.addOption("SCORE SPEAKER THEN LEAVE", new SpeakAndRunAuton(m_drivetrain, m_launcher));
+    m_chooser.addOption("SCORE SPEAKER THEN LEAVE LONGER", new SpeakAndLongRunAuton(m_drivetrain, m_launcher));
     SmartDashboard.putData(m_chooser);
   }
 
