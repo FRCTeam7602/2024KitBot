@@ -70,9 +70,9 @@ public class RobotContainer {
     m_operatorController
         .cross()
         .whileTrue(
-            new PrepareLaunch(m_launcher)
+            new PrepareLaunch(m_launcher,m_drivetrain)
                 .withTimeout(LauncherConstants.kLauncherDelay)
-                .andThen(new LaunchNote(m_launcher))
+                .andThen(new LaunchNote(m_launcher,m_drivetrain))
                 .handleInterrupt(() -> m_launcher.stop()));
 
     // Set up a binding to run the intake command while the operator is pressing and holding the
