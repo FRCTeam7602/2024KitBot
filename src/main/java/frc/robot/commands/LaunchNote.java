@@ -8,6 +8,7 @@ import static frc.robot.Constants.LauncherConstants.*;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.CANLauncher;
+import frc.robot.subsystems.Drivetrain;
 
 // import frc.robot.subsystems.CANLauncher;
 
@@ -20,12 +21,14 @@ public class LaunchNote extends Command {
   // CANLauncher m_launcher;
 
   /** Creates a new LaunchNote. */
-  public LaunchNote(CANLauncher launcher) {
+  public LaunchNote(CANLauncher launcher, Drivetrain drivetrain) {
     // save the launcher system internally
     m_launcher = launcher;
+  
 
     // indicate that this command requires the launcher system
     addRequirements(m_launcher);
+    addRequirements(drivetrain);
   }
 
   // The initialize method is called when the command is initially scheduled.

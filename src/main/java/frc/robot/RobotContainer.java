@@ -16,7 +16,11 @@ import frc.robot.commands.AutonomousTime;
 import frc.robot.commands.Autos;
 import frc.robot.commands.Drive;
 import frc.robot.commands.LaunchNote;
+import frc.robot.commands.NoopAuton;
 import frc.robot.commands.PrepareLaunch;
+import frc.robot.commands.SpeakAndLongRunAuton;
+import frc.robot.commands.SpeakAndRunAuton;
+import frc.robot.commands.SpeakandStop;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.CANLauncher;
 
@@ -66,9 +70,9 @@ public class RobotContainer {
     m_operatorController
         .cross()
         .whileTrue(
-            new PrepareLaunch(m_launcher)
+            new PrepareLaunch(m_launcher,m_drivetrain)
                 .withTimeout(LauncherConstants.kLauncherDelay)
-                .andThen(new LaunchNote(m_launcher))
+                .andThen(new LaunchNote(m_launcher,m_drivetrain))
                 .handleInterrupt(() -> m_launcher.stop()));
 
     // Set up a binding to run the intake command while the operator is pressing and holding the
@@ -76,7 +80,10 @@ public class RobotContainer {
     m_operatorController.L1().whileTrue(m_launcher.getIntakeCommand());
 
     m_chooser.setDefaultOption("LEAVE START ZONE", new AutonomousTime(m_drivetrain));
-    m_chooser.addOption("SCORE IN AMP", new AutonomousTime(m_drivetrain));
+    m_chooser.addOption("DO NOTHING", new NoopAuton());
+    m_chooser.addOption("SCORE SPEAKER", new SpeakandStop(m_drivetrain, m_launcher));
+    m_chooser.addOption("SCORE SPEAKER THEN LEAVE", new SpeakAndRunAuton(m_drivetrain, m_launcher));
+    m_chooser.addOption("SCORE SPEAKER THEN LEAVE LONGER", new SpeakAndLongRunAuton(m_drivetrain, m_launcher));
     SmartDashboard.putData(m_chooser);
   }
 

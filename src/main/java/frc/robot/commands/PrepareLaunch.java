@@ -8,6 +8,7 @@ import static frc.robot.Constants.LauncherConstants.*;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.CANLauncher;
+import frc.robot.subsystems.Drivetrain;
 
 // import frc.robot.subsystems.CANLauncher;
 
@@ -17,12 +18,13 @@ public class PrepareLaunch extends Command {
   // CANLauncher m_launcher;
 
   /** Creates a new PrepareLaunch. */
-  public PrepareLaunch(CANLauncher launcher) {
+  public PrepareLaunch(CANLauncher launcher, Drivetrain drivetrain) {
     // save the launcher system internally
     m_launcher = launcher;
 
     // indicate that this command requires the launcher system
     addRequirements(m_launcher);
+    addRequirements(drivetrain);
   }
 
   // Called when the command is initially scheduled.
