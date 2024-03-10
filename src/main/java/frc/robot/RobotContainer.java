@@ -18,10 +18,12 @@ import frc.robot.commands.Drive;
 import frc.robot.commands.LaunchNote;
 import frc.robot.commands.NoopAuton;
 import frc.robot.commands.PrepareLaunch;
+import frc.robot.commands.ShootAmp;
 import frc.robot.commands.SpeakAndLongRunAuton;
 import frc.robot.commands.SpeakAndRunAuton;
 import frc.robot.commands.SpeakandStop;
 import frc.robot.subsystems.Drivetrain;
+import frc.robot.subsystems.Hood;
 import frc.robot.subsystems.CANLauncher;
 
 // import frc.robot.subsystems.CANDrivetrain;
@@ -40,6 +42,8 @@ public class RobotContainer {
   private final CANLauncher m_launcher = new CANLauncher();
   // private final CANLauncher m_launcher = new CANLauncher();
   private final SendableChooser<Command> m_chooser = new SendableChooser<>();
+
+  private final Hood m_hood = new Hood();
 
 
   /*The gamepad provided in the KOP shows up like an XBox controller if the mode switch is set to X mode using the
@@ -68,7 +72,7 @@ public class RobotContainer {
     /*Create an inline sequence to run when the operator presses and holds the A (green) button. Run the PrepareLaunch
      * command for 1 seconds and then run the LaunchNote command */
     m_operatorController
-        .cross()
+        .R2()
         .whileTrue(
             new PrepareLaunch(m_launcher,m_drivetrain)
                 .withTimeout(LauncherConstants.kLauncherDelay)
@@ -77,7 +81,9 @@ public class RobotContainer {
 
     // Set up a binding to run the intake command while the operator is pressing and holding the
     // left Bumper
-    m_operatorController.L1().whileTrue(m_launcher.getIntakeCommand());
+    m_operatorController.L2().whileTrue(m_launcher.getIntakeCommand());
+
+    m_operatorController.R1().whileTrue(new ShootAmp(m_launcher,m_hood,m_drivetrain));
 
     m_chooser.setDefaultOption("LEAVE START ZONE", new AutonomousTime(m_drivetrain));
     m_chooser.addOption("DO NOTHING", new NoopAuton());

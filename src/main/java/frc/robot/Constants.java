@@ -31,6 +31,13 @@ public final class Constants {
     public static final int kCurrentLimit = 60;
   }
 
+  public static class HoodConstants {
+    public static final int kShooterID = 10;
+
+    public static final double kAmpSpeed = 0.6;
+    public static final int kArmID = 9;
+  }
+
   public static class LauncherConstants {
     // PWM ports/CAN IDs for motor controllers
     public static final int kFeederID = 3;
