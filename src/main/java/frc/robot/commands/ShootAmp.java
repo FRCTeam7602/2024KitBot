@@ -18,8 +18,9 @@ import frc.robot.subsystems.Hood;
  * will override.
  */
 public class ShootAmp extends Command {
-  CANLauncher m_launcher;
-  Hood m_hood;
+  private CANLauncher m_launcher;
+  private Hood m_hood;
+  private long m_startTime;
 
   // CANLauncher m_launcher;
 
@@ -39,18 +40,20 @@ public class ShootAmp extends Command {
   // The initialize method is called when the command is initially scheduled.
   @Override
   public void initialize() {
-    // Set the wheels to launching speed
-    m_launcher.setLaunchWheel(kAmpSpeed);
-    m_launcher.setFeedWheel(kAmpSpeed);
-    m_hood.setHoodWheel(kAmpSpeed);
+    m_startTime = System.currentTimeMillis();
+
+    // start the hood wheels to launching speed
+    m_hood.setHoodWheel(.8);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    // There is nothing we need this command to do on each iteration. You could remove this method
-    // and the default blank method
-    // of the base class will run.
+    // after a half second start up the launcher wheels
+    if((System.currentTimeMillis() - m_startTime) >= 1000) {
+      m_launcher.setLaunchWheel(kAmpSpeed);
+      m_launcher.setFeedWheel(kAmpSpeed);
+    }
   }
 
   // Returns true when the command should end.
