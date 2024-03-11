@@ -22,6 +22,7 @@ import frc.robot.commands.ShootAmp;
 import frc.robot.commands.SpeakAndLongRunAuton;
 import frc.robot.commands.SpeakAndRunAuton;
 import frc.robot.commands.SpeakandStop;
+import frc.robot.commands.ToggleArm;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Hood;
 import frc.robot.subsystems.CANLauncher;
@@ -84,6 +85,8 @@ public class RobotContainer {
     m_operatorController.L2().whileTrue(m_launcher.getIntakeCommand());
 
     m_operatorController.R1().whileTrue(new ShootAmp(m_launcher,m_hood,m_drivetrain));
+
+    m_operatorController.cross().onTrue(new ToggleArm(m_hood));
 
     m_chooser.setDefaultOption("LEAVE START ZONE", new AutonomousTime(m_drivetrain));
     m_chooser.addOption("DO NOTHING", new NoopAuton());
