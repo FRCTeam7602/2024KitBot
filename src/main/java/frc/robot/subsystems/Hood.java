@@ -14,6 +14,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Hood extends SubsystemBase {
+    private static final double TOP_ENCODER_POSITON = 38.0;
+    private static final double BOTTOM_ENCODER_POSITION = 0.0;
+
     CANSparkBase m_shooter;
 
     private static final int UP_SLOT = 0;
@@ -53,12 +56,12 @@ public class Hood extends SubsystemBase {
 
     public void moveArmUp() {
         m_pidController.setSmartMotionMaxAccel(maxAcc, UP_SLOT);
-        m_pidController.setReference(38.0, CANSparkBase.ControlType.kSmartMotion, UP_SLOT);
+        m_pidController.setReference(TOP_ENCODER_POSITON, CANSparkBase.ControlType.kSmartMotion, UP_SLOT);
     }
 
     public void moveArmDown() {
         m_pidController.setSmartMotionMaxAccel(700, UP_SLOT);
-        m_pidController.setReference(0.0, CANSparkBase.ControlType.kSmartMotion, UP_SLOT);
+        m_pidController.setReference(BOTTOM_ENCODER_POSITION, CANSparkBase.ControlType.kSmartMotion, UP_SLOT);
     }
 
     public void stopArm() {
@@ -121,5 +124,8 @@ public class Hood extends SubsystemBase {
         }
         SmartDashboard.putNumber("Motor Current", current);
         SmartDashboard.putNumber("Max Motor Current", maxCurrent);
+
+        double maxA = SmartDashboard.getNumber("Max Acceleration", 0);
+        
     }
 }
