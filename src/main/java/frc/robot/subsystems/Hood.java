@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Hood extends SubsystemBase {
-    private static final double TOP_ENCODER_POSITON = 45.070942;
+    private static final double TOP_ENCODER_POSITON = 41.0;
     private static final double BOTTOM_ENCODER_POSITION = 0.0;
 
     CANSparkBase m_shooter;
@@ -48,11 +48,11 @@ public class Hood extends SubsystemBase {
             // PID coefficients
     kP = 0.1; 
     kI = 1e-4;
-    kD = 1; 
+    kD = .3; 
     kIz = 0; 
     kFF = 0; 
-    kMaxOutput = 1; 
-    kMinOutput = -1;
+    kMaxOutput = .2; 
+    kMinOutput = -.2;
 
     // set PID coefficients
     m_pidController.setP(kP);
@@ -62,8 +62,8 @@ public class Hood extends SubsystemBase {
     m_pidController.setFF(kFF);
     m_pidController.setOutputRange(kMinOutput, kMaxOutput);
 
-        maxVel = 800;
-        maxAcc = 200;
+        maxVel = 1400;
+        maxAcc = 1000;
 
         m_pidController.setSmartMotionMaxVelocity(maxVel, UP_SLOT);
         m_pidController.setSmartMotionMinOutputVelocity(minVel, UP_SLOT);
