@@ -34,7 +34,6 @@ public class ShootAmp extends Command {
     // indicate that this command requires the launcher system
     addRequirements(m_launcher);
     addRequirements(m_hood);
-    addRequirements(drivetrain);
   }
 
   // The initialize method is called when the command is initially scheduled.

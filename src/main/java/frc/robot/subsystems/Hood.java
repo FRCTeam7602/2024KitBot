@@ -72,7 +72,7 @@ public class Hood extends SubsystemBase {
     }
 
     public void moveArmUp() {
-        m_arm.set(.1);
+        m_arm.set(.2);
         // m_pidController.setSmartMotionMaxAccel(maxAcc, UP_SLOT);
         // m_pidController.setReference(TOP_ENCODER_POSITON, CANSparkBase.ControlType.kSmartMotion, UP_SLOT);
     }
