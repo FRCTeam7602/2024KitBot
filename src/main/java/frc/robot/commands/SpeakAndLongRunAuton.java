@@ -13,7 +13,7 @@ public class SpeakAndLongRunAuton extends SequentialCommandGroup {
                 .andThen(new LaunchNote(launcher, drivetrain))
                 .withTimeout(2)
                 .handleInterrupt(() -> launcher.stop()),
-                new DriveTime(-.4, 1,drivetrain),
+                new DriveTime(-.4, 2, drivetrain),
             new StraffeTime(0.4, 2.0, drivetrain),
             new TurnTime (-0.5, 1.5, drivetrain)
         );
