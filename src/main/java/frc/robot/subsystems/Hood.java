@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Hood extends SubsystemBase {
-    private static final double TOP_ENCODER_POSITON = 38.0;
+    private static final double TOP_ENCODER_POSITON = 45.070942;
     private static final double BOTTOM_ENCODER_POSITION = 0.0;
 
     CANSparkBase m_shooter;
@@ -43,10 +43,27 @@ public class Hood extends SubsystemBase {
         m_pidController = m_arm.getPIDController();
         m_encoder = m_arm.getEncoder();
 
-        m_encoder.setPosition(0);
+        m_encoder.setPosition(BOTTOM_ENCODER_POSITION);
 
-        maxVel = 2000;
-        maxAcc = 1500;
+            // PID coefficients
+    kP = 0.1; 
+    kI = 1e-4;
+    kD = 1; 
+    kIz = 0; 
+    kFF = 0; 
+    kMaxOutput = 1; 
+    kMinOutput = -1;
+
+    // set PID coefficients
+    m_pidController.setP(kP);
+    m_pidController.setI(kI);
+    m_pidController.setD(kD);
+    m_pidController.setIZone(kIz);
+    m_pidController.setFF(kFF);
+    m_pidController.setOutputRange(kMinOutput, kMaxOutput);
+
+        maxVel = 800;
+        maxAcc = 200;
 
         m_pidController.setSmartMotionMaxVelocity(maxVel, UP_SLOT);
         m_pidController.setSmartMotionMinOutputVelocity(minVel, UP_SLOT);
@@ -55,13 +72,16 @@ public class Hood extends SubsystemBase {
     }
 
     public void moveArmUp() {
-        m_pidController.setSmartMotionMaxAccel(maxAcc, UP_SLOT);
-        m_pidController.setReference(TOP_ENCODER_POSITON, CANSparkBase.ControlType.kSmartMotion, UP_SLOT);
+        m_arm.set(.1);
+        // m_pidController.setSmartMotionMaxAccel(maxAcc, UP_SLOT);
+        // m_pidController.setReference(TOP_ENCODER_POSITON, CANSparkBase.ControlType.kSmartMotion, UP_SLOT);
     }
 
+
     public void moveArmDown() {
-        m_pidController.setSmartMotionMaxAccel(700, UP_SLOT);
-        m_pidController.setReference(BOTTOM_ENCODER_POSITION, CANSparkBase.ControlType.kSmartMotion, UP_SLOT);
+        m_arm.set(-.1);
+        // m_pidController.setSmartMotionMaxAccel(700, UP_SLOT);
+        // m_pidController.setReference(BOTTOM_ENCODER_POSITION, CANSparkBase.ControlType.kSmartMotion, UP_SLOT);
     }
 
     public void stopArm() {
@@ -77,11 +97,11 @@ public class Hood extends SubsystemBase {
     }
 
     public boolean isAtTop() {
-        return m_encoder.getPosition() >= 38.0;
+        return m_encoder.getPosition() >= TOP_ENCODER_POSITON;
     }
 
     public boolean isAtBottom() {
-        return m_encoder.getPosition() <= 0.0;
+        return m_encoder.getPosition() <= BOTTOM_ENCODER_POSITION;
     }
 
     private double maxVelocity = 0.0;
@@ -125,7 +145,10 @@ public class Hood extends SubsystemBase {
         SmartDashboard.putNumber("Motor Current", current);
         SmartDashboard.putNumber("Max Motor Current", maxCurrent);
 
-        double maxA = SmartDashboard.getNumber("Max Acceleration", 0);
-        
+        // double setPosition = SmartDashboard.getNumber("Set Encoder Position", m_encoder.getPosition());
+        // if (setPosition != m_encoder.getPosition()) {
+        //     m_pidController.setSmartMotionMaxAccel(700, UP_SLOT);
+        //     m_pidController.setReference(BOTTOM_ENCODER_POSITION, CANSparkBase.ControlType.kSmartMotion, UP_SLOT);
+        // }        
     }
 }
