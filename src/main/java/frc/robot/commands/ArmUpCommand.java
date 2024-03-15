@@ -4,13 +4,13 @@
 
 package frc.robot.commands;
 
-import frc.robot.subsystems.Hood;
+import frc.robot.subsystems.HoodArm;
 import edu.wpi.first.wpilibj2.command.Command;
 
 public class ArmUpCommand extends Command {
-    private final Hood m_hood;
+    private final HoodArm m_hood;
 
-    public ArmUpCommand(Hood subsystem) {
+    public ArmUpCommand(HoodArm subsystem) {
         m_hood = subsystem;
         addRequirements(subsystem);
     }

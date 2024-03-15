@@ -10,7 +10,8 @@ import static frc.robot.Constants.LauncherConstants.*;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.CANLauncher;
 import frc.robot.subsystems.Drivetrain;
-import frc.robot.subsystems.Hood;
+import frc.robot.subsystems.HoodArm;
+import frc.robot.subsystems.HoodWheels;
 
 // import frc.robot.subsystems.CANLauncher;
 
@@ -19,21 +20,21 @@ import frc.robot.subsystems.Hood;
  */
 public class ShootAmp extends Command {
   private CANLauncher m_launcher;
-  private Hood m_hood;
+  private HoodWheels m_hoodWheels;
   private long m_startTime;
 
   // CANLauncher m_launcher;
 
   /** Creates a new LaunchNote. */
-  public ShootAmp(CANLauncher launcher, Hood hood, Drivetrain drivetrain) {
+  public ShootAmp(CANLauncher launcher, HoodWheels hoodWheels, Drivetrain drivetrain) {
     // save the launcher system internally
     m_launcher = launcher;
-    m_hood = hood;
+    m_hoodWheels = hoodWheels;
   
 
     // indicate that this command requires the launcher system
     addRequirements(m_launcher);
-    addRequirements(m_hood);
+    addRequirements(m_hoodWheels);
   }
 
   // The initialize method is called when the command is initially scheduled.
@@ -42,14 +43,14 @@ public class ShootAmp extends Command {
     m_startTime = System.currentTimeMillis();
 
     // start the hood wheels to launching speed
-    m_hood.setHoodWheel(.8);
+    m_hoodWheels.setHoodWheel(.8);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     // after a half second start up the launcher wheels
-    if((System.currentTimeMillis() - m_startTime) >= 1000) {
+    if((System.currentTimeMillis() - m_startTime) >= 500) {
       m_launcher.setLaunchWheel(kAmpSpeed);
       m_launcher.setFeedWheel(kAmpSpeed);
     }
@@ -68,6 +69,6 @@ public class ShootAmp extends Command {
   public void end(boolean interrupted) {
     // Stop the wheels when the command ends.
     m_launcher.stop();
-    m_hood.stop();
+    m_hoodWheels.stop();
   }
 }

@@ -4,20 +4,20 @@
 
 package frc.robot.commands;
 
-import frc.robot.subsystems.Hood;
+import frc.robot.subsystems.HoodArm;
 import edu.wpi.first.wpilibj2.command.Command;
 
 /** An example command that uses an example subsystem. */
 public class ToggleArm extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-  private final Hood m_hood;
+  private final HoodArm m_hood;
 
   /**
    * Creates a new ExampleCommand.
    *
    * @param subsystem The subsystem used by this command.
    */
-  public ToggleArm(Hood subsystem) {
+  public ToggleArm(HoodArm subsystem) {
     m_hood = subsystem;
     System.out.println("CTOR");
     // Use addRequirements() here to declare subsystem dependencies.
@@ -51,6 +51,8 @@ public class ToggleArm extends Command {
   @Override
   public void end(boolean interrupted) {
     System.out.println("Toggle End");
+    // runningCommand.cancel();
+    
   }
 
   // Returns true when the command should end.

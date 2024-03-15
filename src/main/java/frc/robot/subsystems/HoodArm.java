@@ -13,11 +13,10 @@ import com.revrobotics.CANSparkMax;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class Hood extends SubsystemBase {
+public class HoodArm extends SubsystemBase {
     private static final double TOP_ENCODER_POSITON = 41.0;
     private static final double BOTTOM_ENCODER_POSITION = 0.0;
 
-    CANSparkBase m_shooter;
 
     private static final int UP_SLOT = 0;
     private final CANSparkBase m_arm = new CANSparkMax(9, MotorType.kBrushless);
@@ -29,8 +28,7 @@ public class Hood extends SubsystemBase {
     private SparkLimitSwitch m_forwardLimit;
     private SparkLimitSwitch m_reverseLimit;
 
-    public Hood() {
-        m_shooter = new CANSparkMax(kShooterID, MotorType.kBrushless);
+    public HoodArm() {
 
         m_forwardLimit = m_arm.getForwardLimitSwitch(SparkLimitSwitch.Type.kNormallyOpen);
         m_reverseLimit = m_arm.getReverseLimitSwitch(SparkLimitSwitch.Type.kNormallyOpen);
@@ -106,20 +104,6 @@ public class Hood extends SubsystemBase {
 
     private double maxVelocity = 0.0;
     private double maxCurrent = 0.0;
-
-    // TODO - question: do we want an reverse / re-intake option?
-
-    // public void shoot() {
-    // m_shooter.set(kShooterSpeed);
-    // }
-
-    public void stop() {
-        m_shooter.set(0);
-    }
-
-    public void setHoodWheel(double speed) {
-        m_shooter.set(speed);
-    }
 
     @Override
     public void periodic() {

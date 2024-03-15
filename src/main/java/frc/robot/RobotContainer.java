@@ -7,24 +7,29 @@ package frc.robot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
 import frc.robot.Constants.LauncherConstants;
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.commands.AmpandRun;
 import frc.robot.commands.AutonomousTime;
 import frc.robot.commands.Autos;
 import frc.robot.commands.Drive;
 import frc.robot.commands.LaunchNote;
 import frc.robot.commands.NoopAuton;
 import frc.robot.commands.PrepareLaunch;
+import frc.robot.commands.RedSpeakAndLongStraffe;
 import frc.robot.commands.ShootAmp;
-import frc.robot.commands.SpeakAndLongRunAuton;
+import frc.robot.commands.SpeakAndLongLeave;
+import frc.robot.commands.BlueSpeakAndLongStraffe;
 import frc.robot.commands.SpeakAndRunAuton;
 import frc.robot.commands.SpeakandStop;
 import frc.robot.commands.ToggleArm;
 import frc.robot.subsystems.Drivetrain;
-import frc.robot.subsystems.Hood;
+import frc.robot.subsystems.HoodArm;
+import frc.robot.subsystems.HoodWheels;
 import frc.robot.subsystems.CANLauncher;
 
 // import frc.robot.subsystems.CANDrivetrain;
@@ -42,9 +47,10 @@ public class RobotContainer {
   // private final CANDrivetrain m_drivetrain = new CANDrivetrain();
   private final CANLauncher m_launcher = new CANLauncher();
   // private final CANLauncher m_launcher = new CANLauncher();
+  private final HoodWheels m_hoodWheels = new HoodWheels();
   private final SendableChooser<Command> m_chooser = new SendableChooser<>();
 
-  private final Hood m_hood = new Hood();
+  private final HoodArm m_hoodArm = new HoodArm();
 
 
   /*The gamepad provided in the KOP shows up like an XBox controller if the mode switch is set to X mode using the
@@ -84,16 +90,24 @@ public class RobotContainer {
     // left Bumper
     m_operatorController.L2().whileTrue(m_launcher.getIntakeCommand());
 
-    m_operatorController.R1().whileTrue(new ShootAmp(m_launcher,m_hood,m_drivetrain));
+    m_operatorController.R1().whileTrue(new ShootAmp(m_launcher,m_hoodWheels,m_drivetrain));
 
-    m_operatorController.cross().onTrue(new ToggleArm(m_hood));
+    m_operatorController.cross().onTrue(new ToggleArm(m_hoodArm));
+    m_operatorController.triangle().whileTrue(Commands.startEnd(m_hoodWheels::reverseShooter, m_hoodWheels::stop, m_hoodWheels));
 
     m_chooser.setDefaultOption("LEAVE START ZONE", new AutonomousTime(m_drivetrain));
     m_chooser.addOption("DO NOTHING", new NoopAuton());
     m_chooser.addOption("SCORE SPEAKER", new SpeakandStop(m_drivetrain, m_launcher));
     m_chooser.addOption("SCORE SPEAKER THEN LEAVE", new SpeakAndRunAuton(m_drivetrain, m_launcher));
-    m_chooser.addOption("SCORE SPEAKER THEN LEAVE LONGER", new SpeakAndLongRunAuton(m_drivetrain, m_launcher));
+    m_chooser.addOption("SCORE BLUE SPEAKER | STRAFFE | LONG LEAVE", new BlueSpeakAndLongStraffe(m_drivetrain, m_launcher));
+    m_chooser.addOption("SCORE SPEAKER | LONG LEAVE", new SpeakAndLongLeave(m_drivetrain, m_launcher));
+    m_chooser.addOption("SCORE RED SPEAKER | STRAFFE | LONG LEAVE", new RedSpeakAndLongStraffe(m_drivetrain, m_launcher));
+    //m_chooser.addOption("SCORE AMP THEN LEAVE", new AmpandRun(m_drivetrain, m_launcher, m_hoodArm, m_hoodWheels));
     SmartDashboard.putData(m_chooser);
+
+    SmartDashboard.putBoolean("Auto straffe", false);
+    SmartDashboard.putNumber("Amp first straffe", 1.0);
+    SmartDashboard.putNumber("Amp second straffe", 2.0);
   }
 
 

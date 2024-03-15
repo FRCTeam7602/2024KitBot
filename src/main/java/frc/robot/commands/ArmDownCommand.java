@@ -5,13 +5,13 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.Hood;
+import frc.robot.subsystems.HoodArm;
 
 /** An example command that uses an example subsystem. */
 public class ArmDownCommand extends Command {
-    private final Hood m_hood;
+    private final HoodArm m_hood;
 
-    public ArmDownCommand(Hood subsystem) {
+    public ArmDownCommand(HoodArm subsystem) {
         m_hood = subsystem;
         addRequirements(subsystem);
     }
