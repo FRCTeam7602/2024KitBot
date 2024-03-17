@@ -19,7 +19,7 @@ public class HoodWheels extends SubsystemBase {
     // TODO - question: do we want an reverse / re-intake option?
 
     public void reverseShooter() {
-        m_shooter.set(-0.6);
+        m_shooter.set(-1.0);
     }
 
     public void stop() {
